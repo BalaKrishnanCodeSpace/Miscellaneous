@@ -1,0 +1,2600 @@
+PLSQL ( Procedural Language Structured query Language)
+=================================================
+          Why?
+                          * To implement the Business Application into Technical
+                          * To avoid the network traffic jam
+
+          what?
+                          BEGIN
+                                 NULL;
+                          END;
+                          
+                          BEGIN
+                              insert into t1 values(10);
+                          END;
+                          
+                          insert into t1 values(1);
+                          insert into t1 values(2);
+                          insert into t1 values(3);
+                          insert into t1 values(4);
+                          insert into t1 values(5);
+                          insert into t1 values(6);
+                          
+                          TO avoid the network traffic jam
+                          -----------------------------------
+                          BEGIN
+                          insert into t1 values(1);
+                          insert into t1 values(2);
+                          insert into t1 values(3);
+                          insert into t1 values(4);
+                          insert into t1 values(5);
+                          insert into t1 values(6);                          
+                          END;
+                          
+ PRINT ( to print the value using DBMS_OUTPUT.PUT_LINE)
+--------------------------------------------------------------------------------
+              BEGIN
+                 DBMS_OUTPUT.PUT_LINE('Welcome to PLSQL');
+              END;
+              
+              BEGIN
+                 DBMS_OUTPUT.PUT_LINE('Welcome to PLSQL           HI how r u');
+                 DBMS_OUTPUT.PUT_LINE('Welcome to PLSQL'||'   '||'HI how r u');
+              END;              
+ 
+ANANYMOUS BLOCK  /  UNNAMED PLSQL BLOCK
+----------------------------------------------------------------------
+       Variable Declaration
+       ------------------------
+                BEGIN
+                   v_var := 'ORACLE';
+                END;  ----not possible
+                
+                DECLARE
+                  v_var varchar(15);  ---> v_var is VARIABLE
+                BEGIN
+                  v_var := 'ORACLE';  -----> :=  ( assignment opeartor --> to store the value /data
+                  DBMS_OUTPUT.PUT_LINE('v_var :'||v_var);
+                END;
+
+                DECLARE
+                  v_var varchar(15);
+                BEGIN
+                  v_var := 'ORACLE';
+                  DBMS_OUTPUT.PUT_LINE('v_var 1 :'||v_var);
+                  v_var := 'JAVA';
+                  DBMS_OUTPUT.PUT_LINE('v_var 2 :'||v_var);
+                END;     
+
+                DECLARE
+                  v_var varchar(15);
+                  v_var number;
+                BEGIN
+                  v_var := 'ORACLE';
+                  v_var := 10;
+                  DBMS_OUTPUT.PUT_LINE('v_var 1 :'||v_var);
+                  v_var := 'JAVA';
+                  DBMS_OUTPUT.PUT_LINE('v_var 2 :'||v_var);
+                END;    --------- not possible
+                
+                DECLARE
+                  v_var varchar(15);
+                  v_num number;
+                BEGIN
+                  v_var := 'ORACLE';
+                  v_num := 10;
+                  DBMS_OUTPUT.PUT_LINE('v_var 1 :'||v_var||','||v_num);
+                  v_var := 'JAVA';
+                  DBMS_OUTPUT.PUT_LINE('v_var 2 :'||v_var);
+                END;                
+
+                 DECLARE
+                  v_var varchar(15) := 'C#'; --->default assignment operator
+                BEGIN
+                  DBMS_OUTPUT.PUT_LINE('START :'||v_var);
+                  v_var := 'ORACLE';
+                  DBMS_OUTPUT.PUT_LINE('v_var :'||v_var);
+                END;                    
+                
+                         
+  plsql STRUCTRURE
+  ------------------------ 
+             [DECLARE]
+                     ---------------------> declaration section  
+             BEGIN
+                     ----------------------> defined section (min one value) 
+                    null;
+             END;
+
+   CONTROL STATEMENTS
+================================
+	IF 
+	IF THEN ELSIF
+	IF THEN ELSE
+	NESTED IF
+	LOOP
+	WHILE LOOP
+	FOR LOOP
+	CASE statement in PLSQL
+	GOTO
+	RETURN
+	NESTED BLOCK
+                   %type
+                   %rowtype
+	record
+
+    IF 
+   ---------------
+               syntax :   IF condition = true  THEN
+                                       ------min one statement
+                                END IF;
+              
+
+                DECLARE
+                  a number:=50;
+                BEGIN
+                  IF a = 10 THEN
+                    dbms_output.put_line(10);
+                  END IF;
+                  IF a = 20 THEN
+                     dbms_output.put_line(20);
+                  END IF;
+                  IF a = 30 THEN
+                     dbms_output.put_line(30);
+                  END IF;
+                  IF a = 50 THEN
+                     dbms_output.put_line(50);
+                  END IF;
+                  IF a between 1 and 50 THEN
+                     dbms_output.put_line('another if 1');
+                  END IF;
+                END;
+
+      IF THEN ELSIF
+    -------------------------
+                  syntax :  IF condition = true THEN
+                                      --min one statement
+                                  ELSIF condition = true  THEN
+                                     --min one statement
+                                  ELSIF .....
+                                  END IF;
+
+                DECLARE
+                  a number:=50;
+                  b varchar2(15):='oracle';
+                BEGIN
+                  IF b = 'oracle@@' THEN
+                    dbms_output.put_line(10);
+                  ELSIF b like '%java%' THEN
+                     dbms_output.put_line(20);
+                  ELSIF b in ('C#','PHYTHON') THEN
+                     dbms_output.put_line(30);
+                  ELSIF upper(b) = 'ORACLE' then
+                      dbms_output.put_line(40);
+                  END IF;
+                END;
+
+    IT then ELSE
+   ---------------
+                    syntax :   IF condition = true THEN
+                                     ELSIF condition THEN
+                                       .
+		.
+		ELSE 
+                                          
+ 		END IF;
+   
+    	RULES : *  ELSE should be come before END IF
+                                    *  Only one ELSE allowed for one IF statement              
+
+                DECLARE
+                  a number:=50;
+                  b varchar2(15):='oracle';
+                BEGIN
+                  IF b = 'oracle@@' THEN
+                    dbms_output.put_line(10);
+                  ELSIF b like '%java%' THEN
+                     dbms_output.put_line(20);
+                  ELSIF b in ('C#','PHYTHON') THEN
+                     dbms_output.put_line(30);
+                  ELSIF upper(b) = 'ORACLE##' then
+                      dbms_output.put_line(40);
+                  ELSE
+                      dbms_output.put_line(50);
+                  END IF;
+                END;
+                
+    NESTED IF
+   ----------------------------
+            DECLARE
+              v1 number := 10;
+              v2 number := 20;
+            BEGIN
+              IF v1 is null then
+                  dbms_output.put_line('no data');
+              ELSIF v1 is not null then
+                  if v2 between 1 and 5 then
+                     dbms_output.put_line('m1');
+                  elsif v2 between 6 and 10 then
+                     dbms_output.put_line('m2');
+                  elsif v2 between 11 and 20 then
+                     insert into t1 values(20);
+                  end if;                  
+              end if;
+            END;
+            truncate table t1
+            select * from t1
+       
+   CASE 
+---------------------------------------
+               * We can assign one variable 
+               * case will act as IF statement
+
+           * We can assign one variable 
+           -----------------------------------
+             SELECT first_name,salary,case when salary between 1000 and 10000 then
+                                                salary*25/100
+                                           when salary between 10001 and 15000 then
+                                                salary*20/100
+                                           when salary between 15001 and 20000 then
+                                                salary*10/100
+                                      else
+                                           salary+1000
+                                      end "bonus"
+                FROM employees     
+     
+             DECLARE
+               v_var number;
+               salary number := 25000;
+             BEGIN
+               v_var := case when salary between 1000 and 10000 then
+                                                salary*25/100
+                                           when salary between 10001 and 15000 then
+                                                salary*20/100
+                                           when salary between 15001 and 20000 then
+                                                salary*10/100
+                                      else
+                                           salary+1000
+                                      end;
+                 dbms_output.put_line('v_var :'||v_var);
+             END;
+             
+           * case will act as IF statement          
+           -----------------------------------
+             DECLARE
+               v_var number;
+               salary number := 25000;
+             BEGIN
+                case 
+                     when salary between 1000 and 10000 then
+                           dbms_output.put_line('1 :'||salary*25/100);
+                     when salary between 10001 and 15000 then
+                        dbms_output.put_line('2 :'||salary*20/100);
+                     when salary between 15001 and 20000 then
+                        dbms_output.put_line('3 :'||salary*10/100);
+                else
+                    v_var := salary+1000;
+                    insert into t1 values(v_var);
+                    dbms_output.put_line('4 :'||v_var);
+                    null;
+                end case;
+             END;              
+****************************************************************************************************************************                 
+
+            LOOP  ( condition will check inside the LOOP)
+           ---------------------
+             Begin
+                 dbms_output.put_line(1);
+                 dbms_output.put_line(2);
+                 dbms_output.put_line(3);
+                 dbms_output.put_line(4);
+                 dbms_output.put_line(5);
+                 dbms_output.put_line(6);
+             end;
+
+            syntax
+            ------------
+             LOOP
+                 exit when condition = true;
+            END LOOP;
+
+             Begin
+                 dbms_output.put_line(1);
+                 dbms_output.put_line(2);
+                 dbms_output.put_line(3);
+                 dbms_output.put_line(4);
+                 dbms_output.put_line(5);
+                 dbms_output.put_line(6);
+             end;
+             
+             declare
+              v_num number:=0;
+             begin
+               LOOP
+                v_num := v_num+1;
+                dbms_output.put_line(v_num);
+                EXIT WHEN v_num = 100;
+               END LOOP;
+             end;
+             
+             declare
+              v_num number:=0;
+             begin
+               LOOP
+                v_num := v_num+1;
+                 if mod(v_num,2) = 0 then
+                    dbms_output.put_line(v_num);
+                  end if;
+                EXIT WHEN v_num = 100;
+               END LOOP;
+             end;             
+
+          WHILE LOOP ( condition will check in header level )
+          ----------------------
+              SYNTAX :  
+		WHILE condition =true LOOP
+                                          ---MIN ONE STATEMENT
+ 		END LOOP;
+
+             DECLARE
+               v_num number:=0;
+             BEGIN
+                WHILE V_NUM <= 100 LOOP
+                   dbms_output.put_line(v_num);
+                   v_num := v_num+1;
+                END LOOP;
+             END;
+
+          FOR LOOP ( condition fixed while header level)
+         --------------------------------             
+             syntax :
+                                FOR variable IN conditionstart..conditionend LOOP
+                                    ---min one statement
+                                END LOOP;
+
+                 note :   for i in 1..10 loop ------> should be use 2 dots ( ..)
+
+           begin
+                  FOR i IN 1..100 LOOP
+                    dbms_output.put_line('loop :'||i);
+                  END LOOP;
+           end;
+           
+
+           begin
+               FOR i IN 20..22 LOOP
+                 for j in 1..10 LOOP
+                    dbms_output.put_line('loop :'||i||','||j);
+                 end loop; ------j LOOP  COMPLETED
+               END LOOP; -----i loop completed
+           end;           
+           
+           begin
+               FOR i IN 20..22 LOOP
+                 for j in 1..10 LOOP
+                    for k in 50..51 loop
+                    dbms_output.put_line('loop :'||i||','||j||','||k);
+                    end loop; -------------k loop completed
+                 end loop; -------------j loop completed
+               END LOOP; -------------i loop completed
+           end;           
+         
+
+          begin
+             for i in reverse 1..10 loop
+               dbms_output.put_line(i);
+             end loop;
+          end;
+
+
+          begin
+             dbms_output.put_line('start');
+             for i in 100..10 loop -------------------not possible due to condition illogic (should be least to highest)
+               dbms_output.put_line(i);
+             end loop;
+             dbms_output.put_line('end');
+          end;          
+
+**************************************************************************************************************************
+GOTO statement   ( break the line either partial or full)
+-----------------------
+
+        begin
+         dbms_output.put_line(1);
+         goto a;
+         dbms_output.put_line(2);
+         dbms_output.put_line(3);
+         dbms_output.put_line(4);
+         dbms_output.put_line(5);
+         dbms_output.put_line(6);
+         <<a>>
+         dbms_output.put_line(7);
+         dbms_output.put_line(8);
+        end;
+        
+        begin
+         dbms_output.put_line(1);
+         goto a;
+         dbms_output.put_line(2);
+         dbms_output.put_line(3);
+         <<b>>
+         dbms_output.put_line(4);
+         dbms_output.put_line(5);
+         dbms_output.put_line(6);
+         goto c;
+         <<a>>
+         dbms_output.put_line(7);
+         dbms_output.put_line(8);
+         goto b;
+         <<c>>
+         null;
+        end;    
+        
+        begin
+           for i in 1..10 loop
+              dbms_output.put_line(i);
+              if i = 6 then
+                 goto endprocess;
+              end if;
+           end loop;
+           <<endprocess>>
+           null;
+        end;    
+        
+          
+  RETURN  (break the line FULL not partial)
+  ----------------
+        begin
+         dbms_output.put_line(1);
+         dbms_output.put_line(2);
+         dbms_output.put_line(3);
+         dbms_output.put_line(4);
+         RETURN;
+         dbms_output.put_line(5);
+         dbms_output.put_line(6);
+         dbms_output.put_line(7);
+         dbms_output.put_line(8);
+        end;
+
+NESTED BLOCK
+------------------------------------
+            DECLARE
+              a number;
+            BEGIN
+              a := 10;
+              dbms_output.put_line(a);
+                 DECLARE
+                   a date:= sysdate;
+                 BEGIN
+                   dbms_output.put_line(a);
+                 END;
+            END;
+
+*************************************************************************************************************************
+%type  /  %rowtype  / record     (or) select statement in PLSQL
+-----------------------------------------------------------------------------------------
+           
+          BEGIN
+                SELECT first_name from employees;
+          END;  ---------not possible
+
+          DECLARE
+              v_fname varchar2(15);
+          BEGIN
+                SELECT first_name INTO v_fname from employees where employee_id = 101;
+                dbms_output.put_line('fname :'||v_fname);
+          END;
+
+         SINGLE COLUMN in plsql
+          ------------------------------------
+        %type   ( to store datatype and size in one variable)
+        -------------
+              syntax :    VARIABLE  tablename .columuname%type;
+
+
+          DECLARE
+              v_fname varchar2(1);
+          BEGIN
+                SELECT first_name INTO v_fname from employees where employee_id = 101;
+                dbms_output.put_line('fname :'||v_fname);
+          END;  ----------error occurred
+          
+
+          DECLARE
+              v_fname employees.first_name%type;
+          BEGIN
+                SELECT first_name INTO v_fname from employees where employee_id = 101;
+                dbms_output.put_line('fname :'||v_fname);
+          END;    
+
+
+         MULTI COLUMN in plsql
+          ------------------------------------
+           RECORD :   syntax:   TYPE typename IS RECORD(variable1 datatype, var2 datatype,...);
+                                                   VARIABLE typename;
+
+             declare
+               v_fname varchar2(15);
+               v_sal   employees.salary%type;
+               v_did   number;
+             begin
+                 select first_name,salary,department_id into v_fname,v_sal,v_did from employees
+                   where employee_id = 100;
+             end;
+             
+             record ( to store multi column and datatype)
+             ---------------
+             
+             declare
+                type v_emp_rec is record(v_fname varchar2(15),salary number,did employees.department_id%type);
+                v_rec v_emp_rec;
+             begin
+                 select first_name,salary,department_id into v_rec from employees
+                   where employee_id = 100; 
+                  dbms_output.put_line(v_rec.v_fname||','||v_rec.salary||','||v_rec.did);               
+             end;
+
+         ALL COLUMN  in plql
+      ---------------------------------
+            %ROWTYPE   ( to store columname and datatype. here columnname is act as variable)
+                SYNTAX :          variable  TABLENAME%ROWTYPE;
+
+             DECLARE
+                a employees%rowtype;
+             BEGIN
+                SELECT * into a from employees where employee_id = 100;
+                dbms_output.put_line('output :'||a.first_name||','||a.salary);
+             END;
+
+          note :
+          ----------
+            * INTO clause 
+            * variable
+            * shoule be fetch only one row
+
+**************************************************************************************************************************
+CURSOR  ( Temporary memory storaged.  We can store sql in one place at temporary using cursor)
+==========================
+   why? ---> we cannot execute select statement /query in plsql. using cursor only possible to execute
+
+           TYPE
+           ----------
+                  IMPLICIT CURSOR  ( oracle provided this cursor )
+  	EXPLICIT CURSOR ( user created this cursor)
+
+           ATTIRBUTES
+          ------------------
+                 implicit cursor :  sql%found, sql%notfound, sql%rowcount
+                explicit cursor  :  %found, %notfound, %isopen, %rowcount
+
+       IMPLICIT cursor 
+       ----------------------
+                       whenever we use select statement in BEGIN section then it is called implicit cursor.
+
+               example :
+                ------------
+		declare
+		   v_fname varchar2(15);
+		begin
+		     select first_name into v_fname from employees where employee_id = 100;
+		     if sql%found = true then
+		        dbms_output.put_line('found');
+		         insert into t1 values(10);
+		         insert into t1 values(10);
+		         insert into t1 values(10);
+		         insert into t1 values(10);
+		         insert into t1 values(10);
+		         insert into t1 values(10);
+		     else
+		        dbms_output.put_line('not found');
+    		 end if;
+    		 
+    		 update t1 set a = 100;
+    		 dbms_output.put_line('count :'||sql%rowcount);
+		end;                           
+
+
+       EXPLICIT cursor
+        ------------------------------
+                      whenever we use select statement in DECLARE section, should be use EXPLICIT cursor.           
+
+	example :
+ 	-----------
+                declare
+                    cursor c1 is
+                      select first_name
+                        from employees;
+                begin
+                    null;
+                end;
+                
+                declare
+                    cursor c1 is
+                      select first_name
+                        from employees;
+                   v_fname varchar2(15);
+                begin
+                    open c1;
+                    fetch c1 into v_fname;
+                    close c1;
+                    dbms_output.put_line('v_fname :'||v_fname);
+                end;                
+                
+
+                declare
+                    cursor c1 is
+                      select first_name
+                        from employees
+                        where employee_id = 87984;
+                   v_fname varchar2(15);
+                begin
+                    open c1;
+                    fetch c1 into v_fname;
+                       if c1%found then
+                         dbms_output.put_line(' found');
+                       else
+                         dbms_output.put_line('not found');
+                       end if;
+                    close c1;
+                    dbms_output.put_line('v_fname :'||v_fname);
+                end;                   
+                
+                declare
+                    cursor c1 is
+                      select *
+                        from employees;
+                   v_emplist employees%rowtype;
+                   
+                    cursor c2 is
+                      select *
+                        from departments;
+                   v_deplist departments%rowtype;                  
+                begin
+                    open c1;
+                    fetch c1 into v_emplist;
+                    close c1;
+                    dbms_output.put_line('v_emplist :'||v_emplist.first_name||','||v_emplist.department_id);
+                    
+                    open c2;
+                    fetch c2 into v_deplist;
+                    close c2;
+                    dbms_output.put_line('v_deplist :'||v_deplist.department_name);
+                end;               
+                
+                
+                LOOP concept in cursor 
+                -------------------------
+                example :1
+                ---------------
+                declare
+                  CURSOR c1 is
+                  select * 
+                    from employees;
+                    v_emplist employees%rowtype;
+                begin
+                  open c1;
+                  loop
+                    fetch c1 into v_emplist;
+                    exit when c1%notfound;
+                     dbms_output.put_line('emp :'||v_emplist.first_name);
+                  end loop;
+                  close c1;
+                end;
+
+                example :2
+                ---------------                    
+                declare
+                  CURSOR c1 is
+                  select * 
+                    from employees;
+                    v_emplist employees%rowtype;
+                begin
+                  for i in c1 loop
+                     dbms_output.put_line('emp :'||i.first_name||','||i.salary);
+                  end loop;
+                end;     
+
+                example :3
+                ---------------
+                       DECLARE
+             CURSOR C1 IS
+               SELECT * FROM EMPLOYEES;
+             
+             CURSOR C2 IS
+                SELECT * FROM DEPARTMENTS;
+           BEGIN
+              FOR I IN C1 LOOP
+                 DBMS_OUTPUT.PUT_LINE('EMP :'||I.FIRST_NAME||','||I.DEPARTMENT_ID);
+              END LOOP;
+              FOR J IN C2 LOOP
+                  DBMS_OUTPUT.PUT_LINE('DEP :'||J.DEPARTMENT_ID||','||J.DEPARTMENT_NAME);
+              END LOOP;
+           END;
+
+             PARAMETERIAIZED CURSOR
+             --------------------------------------------
+                    syntax : 
+		CURSOR cursorname(parameter1 [IN] datatype,parameter2 [in] datatype,.......) IS
+                                            select statement
+                                      BEGIN
+                                           OPEN cursorname(VALUE1,VALUE2,...)
+
+                                  NOTE : size shoule not be mention in CURSOR's datatype example (number,char,varchar,varchar2)                                         	
+
+               example : 1
+              ------------------
+
+           DECLARE
+             
+             CURSOR C1(p_id in number) IS
+               SELECT * FROM EMPLOYEES where employee_id = p_id;
+               
+             v_emp c1%rowtype;
+             
+             CURSOR C2 IS
+                SELECT * FROM DEPARTMENTS;
+             v_dep c2%rowtype;
+             v_empid number := 101;
+           BEGIN
+               OPEN C1(v_empid);
+               FETCH C1 INTO v_emp;
+                 dbms_output.put_line('v_emp :'||v_emp.first_name||','||v_emp.department_id);
+               CLOSE C1;
+               
+               OPEN C2;
+               FETCH C2 INTO v_dep;
+               dbms_output.put_line('v_dep :'||v_dep.department_name||','||v_dep.location_id);
+               CLOSE C2;
+           END;
+           
+                example :2
+               -----------------
+           DECLARE
+             
+             CURSOR C1(p_id in number) IS
+               SELECT * FROM EMPLOYEES where employee_id = p_id;
+               
+             v_emp c1%rowtype;
+             
+             CURSOR C2(p_id  number) IS
+                SELECT * FROM DEPARTMENTS where department_id = p_id;
+             v_dep c2%rowtype;
+             
+           BEGIN
+               OPEN C1(103);
+               FETCH C1 INTO v_emp;
+                 dbms_output.put_line('v_emp :'||v_emp.first_name||','||v_emp.department_id);
+               CLOSE C1;
+               
+               OPEN C2(v_emp.department_id);
+               FETCH C2 INTO v_dep;
+               dbms_output.put_line('v_dep :'||v_dep.department_name||','||v_dep.location_id);
+               CLOSE C2;
+           END;
+            
+             example :3 
+             -------------------
+           DECLARE
+             
+             CURSOR C1 IS
+               SELECT * FROM EMPLOYEES;
+             
+             CURSOR C2(p_id  number) IS
+                SELECT * FROM DEPARTMENTS where department_id = p_id;
+                
+                ----FIRSTNAME,DEAPRTMENTNAME,CITY,COUNTRNAME,REGIONNAME
+
+           BEGIN
+           
+              for  i  in c1 loop
+                 for j in c2(i.department_id) loop
+                     dbms_output.put_line('looop :'||i.first_name||','||i.department_id||','||j.department_name);
+                 end loop;
+              end loop;
+              
+           END;
+           
+           
+           DECLARE
+             
+             CURSOR C1 IS
+               SELECT e.first_name first_name,e.department_id department_id,d.department_name department_name
+                FROM EMPLOYEES e
+                join departments d on(e.department_id = d.department_id);
+
+           BEGIN
+           
+              for  i  in c1 loop
+                     dbms_output.put_line('looop :'||i.first_name||','||i.department_id||','||i.department_name);
+              end loop;
+              
+           END;
+                      
+**********************************************************************************************************************************
+
+
+NAMED PLSQL BLOCK / SUB PROGRAM
+======================================
+	PROCEDURE
+	FUNCTION
+	PACKAGES
+
+PROCEDURE   (    It may or maynot be return the value, it is part of subprogram. It can be perform DML operation)
+===============
+          syntax:
+
+	         CREATE [ OR REPLACE ]  PROCEDURE procedurename [ (parameter1 MODE1 datatype1,
+ 							       parameter2 MODE2 datatype2,
+							      .........)]
+                           IS/AS
+   	         BEGIN
+                                  -- min one statement
+	          END;
+
+         MODE 
+          -------
+                     IN    ---------------> default
+	 OUT
+	 IN OUT
+
+         EXAMPLE (  simple procedure  or without parameter )
+          ----------------------------------------------------------------------
+
+                CREATE OR REPLACE PROCEDURE pro1 IS
+                  CURSOR C1 IS
+                    select first_name fname
+                      from employees;
+                BEGIN
+                   for I IN C1 LOOP
+                      DBMS_OUTPUT.PUT_LINE(I.FNAME);
+                   END LOOP;
+                END;
+                
+                data dictionary
+                ------------------
+                 SELECT * FROM USER_SOURCE where NAME = 'PRO1'
+                 
+                 SELECT * FROM USER_OBJECTS WHERE OBJECT_NAME = 'PRO1'
+                 
+                 SELECT * FROM USER_ERRORS WHERE NAME = 'PRO1'
+                 
+                HOW TO EXECUTE PROCEDURE
+                ----------------------------
+                type :1
+                -------------
+                  execute pro1
+                  
+                type :2
+                -------------
+                   exec pro1
+                   
+                type :3
+                ---------------
+                    begin
+                      pro1;
+                    end;
+                
+           EXAMPLE WITH  PARAMETER                
+           ==========================
+          IN parameter
+          -------------------
+                 create or replace procedure pro1(p_empid in number)
+                 is
+                  cursor c1 is
+                    select first_name
+                      from employees
+                     where employee_id = p_empid;
+                     
+                    v_fname employees.first_name%type;
+                 begin
+                    open c1;
+                    fetch c1 into v_fname;
+                    close c1;   
+                    DBMS_OUTPUT.PUT_LINE(v_fname);
+                 end;
+                 
+	exec pro1(102)
+
+        
+                OUT PARAMETER
+                ----------------------------
+                 create or replace procedure pro1(p_empid     number,
+                                                  p_fname out varchar2)
+                 is
+                  cursor c1 is
+                    select first_name
+                      from employees
+                     where employee_id = p_empid;
+                     
+                    v_fname employees.first_name%type;
+                 begin
+                    /*open c1;
+                    fetch c1 into v_fname;
+                    close c1;   
+                    p_fname := v_fname;*/
+                    open c1;
+                    fetch c1 into p_fname;
+                    close c1;   
+                 end;
+                 
+                 how to execute procedure with OUT parameter
+                 --------------------------------------------
+                          using only ananymous block
+                          
+                 exec pro1(100,v_empname) ----not possible
+                 
+                 declare
+                   v_empname varchar2(100);
+                 begin
+                    pro1(100,v_empname);
+                    dbms_output.put_line(v_empname);
+                 end;
+
+             example :2 
+             ----------------
+                 create or replace procedure pro1(p_empid     number,
+                                                  p_fname  out varchar2,
+                                                  p_depname out varchar2,
+                                                  p_city    out varchar2,
+                                                  p_country out varchar2,
+                                                  p_region out varchar2)
+                 is
+                  cursor c1 is
+                    select first_name,department_name,city,country_name,region_name,salary,hire_date
+                      from employees e
+                      join departments d on (e.department_id = d.department_id)
+                      join locations l on(l.location_id = d.location_id)
+                      join countries c on(c.country_id = l.country_id)
+                      join regions r on(r.region_id = c.region_id)
+                     where employee_id = p_empid;
+                     
+                    v_fname employees.first_name%type;
+                    v_sal number;
+                    v_hdate date;
+                 begin
+                    
+                    open c1;
+                    fetch c1 into p_fname,p_depname,p_city,p_country,p_region,v_sal,v_hdate;
+                    close c1;   
+                 end;
+                 
+                 
+                 declare
+                   v_empname varchar2(100);
+                   v_dep varchar2(100);
+                   v_city varchar2(100);
+                   v_cnt varchar2(100);
+                   v_reg varchar2(100);
+                 begin
+                    pro1(100,v_empname,v_dep,v_city,v_cnt,v_reg);
+                    dbms_output.put_line(v_empname);
+                    dbms_output.put_line(v_dep);
+                    dbms_output.put_line(v_city);
+                    dbms_output.put_line(v_cnt);
+                    dbms_output.put_line(v_reg);
+                 end;
+
+                example :3 
+                 --------------
+                 create or replace procedure pro1(p_fname  out varchar2,
+                                                  p_depname out varchar2,
+                                                  p_city    out varchar2,
+                                                  p_country out varchar2,
+                                                  p_region out varchar2)
+                 is
+                  cursor c1 is
+                    select first_name,department_name,city,country_name,region_name,salary,hire_date
+                      from employees e
+                      join departments d on (e.department_id = d.department_id)
+                      join locations l on(l.location_id = d.location_id)
+                      join countries c on(c.country_id = l.country_id)
+                      join regions r on(r.region_id = c.region_id)
+                     ;
+                     
+                    v_fname employees.first_name%type;
+                    v_sal number;
+                    v_hdate date;
+                 begin
+                    
+                    for i in c1 loop
+                       p_fname := i.first_name;
+                       p_depname := i.department_name;
+                       p_city := i.city;
+                       p_country := i.country_name;
+                       p_region := i.region_name;
+                       v_sal := i.salary;
+                       v_hdate := i.hire_date;
+                    end loop;
+                 end;
+                 
+                 
+                 declare
+                   v_empname varchar2(100);
+                   v_dep varchar2(100);
+                   v_city varchar2(100);
+                   v_cnt varchar2(100);
+                   v_reg varchar2(100);
+                 begin
+                    pro1(v_empname,v_dep,v_city,v_cnt,v_reg);
+                    dbms_output.put_line(v_empname);
+                    dbms_output.put_line(v_dep);
+                    dbms_output.put_line(v_city);
+                    dbms_output.put_line(v_cnt);
+                    dbms_output.put_line(v_reg);
+                 end;
+
+                IN OUT parameter
+                --------------------------------
+                          create or replace procedure pro1(p_id in out number)
+                          is
+                          cursor c1 is
+                            select salary
+                              from employees
+                             where employee_id = p_id;
+                          begin
+                             --select salary into p_id from employees where employee_id = p_id;
+                             open c1;
+                             fetch c1 into p_id;
+                             close c1;
+                          end;
+                          
+                          declare
+                            v_id number:=100;
+                          begin
+                            dbms_output.put_line('start:'||v_id);
+                            pro1(v_id);
+                            dbms_output.put_line('end :'||v_id);
+                          end;
+
+            DML operation in procedure
+            -----------------------------------
+                                   create table emp_ne as select * from employees where 1 =2
+                        
+                        select * from emp_ne
+ 
+                       EXAMPLE :1
+                        --------------------
+                        CREATE OR REPLACE procedure dml_pro 
+                        is
+                        begin
+                           delete from emp_ne;
+                           
+                           INSERT INTO emp_ne
+                           select * from employees;
+                         commit;
+                        end;
+                        
+                        exec dml_pro
+                        
+                        select * from emp_ne
+                             
+                         EXAMPLE :2
+                         -----------------------
+                        CREATE OR REPLACE procedure dml_pro 
+                        is
+                          CURSOR c1 IS
+                            select * from employees;
+                        begin
+                           delete from emp_ne;
+                           
+                           for i in c1 loop
+                           INSERT INTO emp_ne(employee_id,first_name,last_name,salary,department_id)
+                              VALUES(i.employee_id,i.first_name,i.last_name,i.salary,i.department_id);
+                           end loop;
+                           
+                         commit;
+                        end;              
+
+       PARAMETER NOTATION
+       -------------------------------------
+                   CREATE OR REPLACE PROCEDURE PRO1(p1 in number:=10,
+                                                   p2 in number,
+                                                   p3 in number)
+                  is 
+                  begin
+                     dbms_output.put_line('output :'||p1||','||p2||','||p3);
+                  end;
+                  
+                  mixed notation
+                  -----------------
+                  EXEC PRO1(NULL,11,12)
+                  
+                  BEGIN
+                    PRO1(P2=>11,P3=>12);
+                    
+                    PRO1(P3=>55,P1=>78,P2=>89);
+                    
+                    PRO1(P3=>'',P1=>78,P2=>89);
+                  END;
+                  
+      PROCEDURE WITHIN ANOTHER PROCEDURE
+      ---------------------------------------------------------------
+                  CREATE OR REPLACE PROCEDURE PRO1(p1 in number:=10,
+                                                   p2 in number,
+                                                   p3 in number)
+                  is 
+                  begin
+                     dbms_output.put_line('output :'||p1||','||p2||','||p3);
+                  end;
+                  
+                  CREATE OR REPLACE PROCEDURE pro2(K1 IN NUMBER,
+                                                   K3 IN NUMBER)
+                  IS
+                  BEGIN
+                     PRO1(K1,10,K3);
+                  END;
+                  
+                  EXEC PRO2(999,888)
+ 
+ *************************************************************************************************************************                
+FUNCTION   ( it must be return the value. It has one default output parameter in HEADER, It cannot be perform DML opeartion,
+                            function can execute either select statement or assigned one variable)                           
+--------------------------
+purpose : calculation,
+                  get name 
+
+    SYNTAX:
+                             CREATE OR REPLACE FUNCTION functionname[(parameter1 MODE1 datatype1,
+						           ........)]
+                             RETURN DATATYPE
+                             IS/AS
+                             BEGIN
+                                      return value;
+                             END;
+
+    EXAMPLE :  without parameter
+     ---------------
+                    create or replace function fun1
+                    return number
+                    is
+                    begin
+                       return 100;
+                    end;
+                    
+                    how to execute function?
+                    
+                    type :1  ( using select statement)
+                    -----------
+                      SELECT fun1 from dual
+                      
+                    type :2   ( assigned one variable using ananymous block)
+                    ------------
+                      declare
+                        v_num number;
+                      begin
+                        v_num := fun1;
+                        dbms_output.put_line('fun :'||v_num);
+                      end;
+
+      EXAMPLE : WIHT PARAMETER
+   ------------------------------------------
+          IN  parameter
+           ------------------
+                       create or replace function fun2(p_id in number)
+                       RETURN varchar2
+                       IS
+                         CURSOR c1 is
+                           select department_name
+                             from departments
+                             where department_id = p_id;
+                          v_depname varchar2(50);
+                       BEGIN
+                          OPEN C1;
+                          FETCH C1 INTO v_depname;
+                          CLOSE C1;
+                          RETURN v_depname;
+                       END;
+                       
+                       select fun2(20) from dual
+                       
+                       select employee_id,first_name,department_id,fun2(department_id) depname from employees
+                       
+       OUT PARAMETER
+      -------------------------------
+                             CREATE OR REPLACE FUNCTION FUN3(p1 in number,
+                                                             p2 out number)
+                             return number                                  
+                             is
+                             begin
+                                p2 := 100;
+                               return p1*p2;
+                             end;
+                             
+                             select fun3(50, ---------------not possible if using OUT parameter in function
+                             
+                             declare
+                               v_num number;
+                               v_get number;
+                             begin
+                               v_get := fun3(50,v_num);
+                               dbms_output.put_line('fun3 :'||v_get||'~~~~~'||v_num);
+                             end;
+
+          IN OUT PARAMETER
+         -----------------------------------------
+                             CREATE OR REPLACE FUNCTION FUN3(p1 IN OUT NUMBER)
+                             RETURN VARCHAR2
+                             IS
+                             BEGIN
+                                  P1 := P1*10;
+                               RETURN 'ORACLE';
+                             END;
+                             
+                             DECLARE
+                               v_id number:=10;
+                               v_name varchar2(100);
+                             BEGIN
+                               v_name := fun3(v_id);
+                               dbms_output.put_line('k1 :'||v_name||','||v_id);
+                             END;
+ 
+           DML opeartion in function
+          ----------------------------------------
+                             CREATE OR REPLACE FUNCTION FUN4
+                             RETURN number
+                             IS
+                             BEGIN
+                                 insert into t1 values(852);
+                               return 8;
+                             END;
+                             
+                             
+                             select fun4 from dual --ORA-14551: cannot perform a DML operation inside a query 
+******************************************************************************************************************************
+PACKAGES  ( It is like a container. collection of procedure, function, variables, cursor, ref cursor)
+========================
+         type :               PACKAGE SPEC --------------------> DECLARATION SECTION -----> GLOBAL
+ 	               PACKAGE BODY  -------------------> DEFINED SECTION -----> LOCAL
+
+                                A package spec can create without package body. But a package body cannot create without spec.
+
+    PACKAGE SPEC
+    --------------------
+                SYNTAX : 
+                                          CREATE OR REPLACE PACKAGE packagename 
+                                           IS/AS
+   		                    -------- DECLARE SECTION
+                                           END;
+    
+             GLOBAL example
+            ---------------------------
+	 CREATE OR REPLACE PACKAGE pkg1
+                    is
+                          g_num number;
+                          g_var  varchar2(100);
+                          cursor G1(p1 in number) is
+                               select first_name
+		from employees
+		where employee_id = p1;	
+	end;
+	
+	 execute
+                    ----------------
+	begin
+	  open PKG1.G1(100);
+	  fetch pkg1.g1 into pkg1.g_var;
+	  close pkg1.g1;
+	   dbms_output.put_line('val :'||pkg1.g_var);
+	end;
+ 
+           PROCEDURE, FUNCTION with PACKAGES
+          -----------------------------------------------------
+                        CREATE OR REPLACE PACKAGE pkg2 IS
+                         procedure pro1;
+                         procedure pro2(p1 number);
+                         function fun1(p1 number) return varchar2;
+                        END;
+                        
+                        CREATE OR REPLACE PACKAGE BODY pkg2 IS
+                          procedure pro1 
+                          IS
+                          begin
+                             for i in (select * from employees) loop
+                                dbms_output.put_line('fname :'||i.first_name);
+                             end loop;
+                          end;
+                          procedure pro2(p1 number)
+                          is
+                             v_depname varchar2(100);
+                          begin
+                             select department_name into v_depname from departments where department_id = p1;
+                          end;
+                          function fun1(p1 number)
+                          return varchar2
+                          is
+                          begin
+                               
+                          return  'oracle '||p1;
+                          end;
+                        END;
+                        
+                        execute PKG2.PRO1
+                        
+                        execute PKG2.PRO2(10)
+                        
+                        select pkg2.fun1(100) from dual
+
+                  PROCEUDRE OR FUNCTION OVERLOADING
+                  ( create same procedure / function with different datatype or no of paratmeter differ)
+                 ------------------------------------------------------------
+                        CREATE OR REPLACE PACKAGE pkg3 IS
+                         procedure pro1(p1 varchar2);
+                         procedure pro1(p1 number);
+                        END;
+                        
+                        CREATE OR REPLACE PACKAGE BODY pkg3 IS
+                          procedure pro1(P1 varchar2)
+                          IS
+                          begin
+                             dbms_output.put_line('varchar2 ---> :'||p1);
+                          end;
+                          procedure pro1(P1 number)
+                          IS
+                          begin
+                             dbms_output.put_line('number ---> :'||p1);
+                          end;                        
+                          END;
+
+                 ADVANATAGES OF PACKAGES
+                 --------------------------------------		
+	   *  Reusable
+	   *  entier business module to store in one place
+	   * overloading concept we can use
+                      *  we can use Globally
+	   
+                DISADVANTAGES OF PACKAGES
+               ---------------------------------------------
+	 * if any procedure is invalid then total packages will be invalid.
+
+
+Notes (sub program)
+----------------------------
+   * we can call one procedure to another procedure 
+                      example : 
+                    create or replace procedure pro1 is
+                    begin
+                      dbms_output.put_line('pro1');
+                    end;
+                    
+                    create or replace procedure pro2 is
+                    begin
+                        pro1;
+                       dbms_output.put_line('pro2');
+                    end;
+  	
+*******************************************************************************************************************************
+EXCEPTION  ( compliation error - run time error / warning condition )
+-------------------------------------------------------------------
+                    PRE DEFINED EXCEPTION
+ 	NON PRE DEFINED EXCEPTION
+	USER DEFINED EXCEPTION
+
+COMPLIATION ERROR
+---------------------------
+            create or replace procedure pro1 is
+           begin
+               select first_name into v_fname from employee;
+            end;     
+            
+            select * from user_objects where object_name = 'PRO1'  --- status column is invalid
+            
+            select * from user_errors where name = 'PRO1'
+
+RUNTIME ERROR ( while executing error)
+----------------------------
+
+     example  :
+                        declare
+                          v_fname varchar2(100);
+                        begin
+                           select first_name into v_fname from employees;
+                        end; --                        ORA-01422: exact fetch returns more than requested number of rows
+
+      how to avoid this much of  error ?  I want to give proper message
+        --------------------------------------
+
+         syntax:
+
+ 	          BEGIN
+
+                                  EXECPTION
+                                       WHEN predefined exception 1 THEN
+                                               ---ANY statement ( we can call procedure / function / packages/ dml / loop/ dbms_output)
+                                       WHEN ....
+		         ---ANY STATEMENT
+                                        WHEN OTHERS THEN ---> else
+                                                  ----ANY STATEMENT 																
+                                  END;
+
+         PRE DEFINED EXECPTION  ( it is created by oracle. there are 20 pre defined exception is there )
+            -------------------------------------  
+		invalid_cursor   -----------------ORA-01001
+		invalid_number  ----------------ORA-01722
+		too_many_rows ------------------ORA-01422
+		no_data_found  ------------------ORA-01403
+		cursor_alreay_open -------------ORA-06511
+		zero_divide   ----------------------ORA-01476
+		value_error    ------------------ ORA-06502
+		program_error-----------------ORA-06501
+
+       
+               Example :
+               --------------------
+            declare
+              a number;
+            begin
+               a := 1/0;
+            end;
+            
+            declare
+              a number;
+            begin
+               --a := 1/0;
+               --A := 'oracle';
+               --SELECT salary into a from employees;
+               SELECT salary into a from employees WHERE EMPLOYEE_ID = 889;
+            EXCEPTION
+             WHEN ZERO_DIVIDE THEN
+               DBMS_OUTPUT.PUT_LINE('ZERO DIVIDE');
+             WHEN VALUE_ERROR THEN
+               DBMS_OUTPUT.PUT_LINE('value error');
+             WHEN TOO_MANY_ROWS THEN
+               DBMS_OUTPUT.PUT_LINE('TOO MANY VALUES');
+             WHEN NO_DATA_FOUND THEN
+               DBMS_OUTPUT.PUT_LINE('NO DATA');
+             WHEN OTHERS THEN
+               DBMS_OUTPUT.PUT_LINE('OTHERS ');
+            end;   
+               
+NON PREDEFINED EXCEPTION
+----------------------------------------------
+              syntax :    PRAGMA EXECPTION_INIT(exceptionvariable, ORACLEERROR NUMBER);
+
+    example :
+
+                            DECLARE
+                              e exception;
+                              pragma exception_init(e,-1476);
+                              f exception;
+                              pragma exception_init(f,-1422);
+                              
+                              a number;
+                            BEGIN
+                               --select 1/0 into a from dual;
+                               select salary into a from employees;
+                            exception
+                              when e then
+                                dbms_output.put_line('cannot divide zero');
+                              when f then
+                                 dbms_output.put_line(' too many values');
+                              when others then
+                                  dbms_output.put_line('non handled oracle exception ');
+                            END;
+
+USER DEFINED EXECPTION
+---------------------------------------------------
+	RAISE_APPLICATION_ERROR
+	SQLCODE
+	SQLERRM
+	DBMS_UTILITY.FORMAT_ERROR_BACKTRACE;
+	DBMS_UTILTIY.FORMAT_ERROR_CALLSTACK;
+
+Example :
+--------------
+      SQLCODE  ------> It will return oracle error code/number
+      SQLERRM -------> it will return oracle error code/number along with error name
+
+                             DECLARE
+                              a number;
+                            BEGIN
+                               select 1/0 into a from dual;
+                               select salary into a from employees;
+                            exception
+                              when others then
+                                  dbms_output.put_line('error code :'||sqlcode);
+                                  dbms_output.put_line('error name:'||sqlerrm);
+                            END;
+
+       RAISE_APPLICATION_ERROR ---> range between 20000 and 20999. it has 2 argument
+                 syntax:  RAISE_APPLICATION_ERROR(-range,message);
+
+                            DECLARE
+                              a number;
+                            BEGIN
+                               select 1/0 into a from dual;
+                               select salary into a from employees;
+                            exception
+                              when others then
+                                  raise_application_error(-20001,'error :'||sqlerrm);
+                            END;
+
+         DBMS_UTILITY.FORMAT_ERROR_BACKTRACE  (it will return exact object(procedure/function) and error line)
+      
+                                CREATE OR REPLACE PROCEDURE pro1 is
+                                begin
+                                   dbms_output.put_line('pro1');
+                                end;
+                                
+                                CREATE OR REPLACE PROCEDURE pro2 is
+                                begin
+                                   pro1;
+                                   dbms_output.put_line(1/0);
+                                   dbms_output.put_line('pro2');
+                                end;
+                                
+                                CREATE OR REPLACE PROCEDURE pro3 is
+                                begin
+                                   pro2;
+                                   dbms_output.put_line('pro3');
+                                end;     
+                                
+                                CREATE OR REPLACE PROCEDURE pro4 is
+                                begin
+                                   pro3;
+                                   dbms_output.put_line('pro4');
+                                end;              
+                                
+                                exec pro4 
+                                
+                                begin
+                                  pro4;
+                                exception
+                                when others then
+                                 raise_application_error(-20001,'error :'||sqlerrm||'~~~~~~'||dbms_utility.format_error_backtrace);
+                                end;                                            
+
+*******************************************************************************************************************************
+REF CURSOR  ( it is user created datatype. whenever we want to use cursor at a runtime is called ref cursor)
+============================
+	STRONG REFCURSOR  ( it is static structure. it is having return statement in header)
+	WEAK REFCURSOR     ( it is dynamic structure. it doesnot have reutrn statement)
+
+STRONG REF CURSOR
+-----------------------------
+                syntax :   TYPE typename IS REF CURSOR RETURN %type/%rowtype/ datatype
+                                 variable typename;
+
+         example :
+         -----------------
+                    DECLARE
+                       TYPE emp_type is ref cursor return employees%rowtype;
+                       st_emp_type emp_type;
+                       
+                       TYPE DEP_type is ref cursor return departments%rowtype;
+                       st_DEP_type DEP_TYPE;
+                       
+                       v_emp employees%rowtype;
+                    BEGIN
+                      OPEN st_emp_type FOR select * from employees;
+                      FETCH  st_emp_type INTO v_emp;
+                        dbms_output.put_line('v_emp :'||v_emp.first_name);
+                      CLOSE st_emp_type;
+                      
+                      open st_DEP_type for SELECT * FROM DEPARTMENTS;
+                      
+                    END;
+
+WEAK REF CURSOR
+------------------------------
+                     SYNTAX :   TYPE typename IS REF CURSOR
+                                           variable typename;
+ 
+                                           variable SYS_REFCURSOR;
+
+                        DECLARE
+                          type ref_type is ref cursor;
+                          a ref_type;
+                          
+                          b sys_refcursor;
+                        BEGIN
+                          open a for select * from employees;
+                          
+                          open a for select * from departments;
+                          
+                          open b for select * from locations;
+                        END;
+
+REF CURSOR in PROCEDURE
+---------------------------------------------
+                        CREATE OR REPLACE PROCEDURE REF_PRO(p_emp_out OUT sys_refcursor,
+                                                            p_dep_out OUT sys_refcursor,
+                                                            p_all_out out sys_refcursor)
+                        IS
+                        BEGIN
+                          open p_emp_out FOR SELECT * FROM EMPLOYEES;
+                          
+                          open p_dep_out for select * from departments;
+                          
+                          open p_all_out for select first_name,department_name,city,country_name,region_name,salary,hire_date
+                              from employees e
+                              join departments d on (e.department_id = d.department_id)
+                              join locations l on(l.location_id = d.location_id)
+                              join countries c on(c.country_id = l.country_id)
+                              join regions r on(r.region_id = c.region_id);
+                        END;
+                        
+                        how to execute
+                        -----------------
+                        
+                        declare
+                          v_emp sys_refcursor;
+                          v_dep sys_refcursor;
+                          v_all sys_refcursor;
+                          
+                          v_emp_list employees%rowtype;
+                          v_dep_list departments%rowtype;
+                          
+                          type t1 is record(v1 varchar2(1000),v2 varchar2(1000),v3 varchar2(1000),v4 varchar2(1000),v5 varchar2(1000),v6 number,v7 date);
+                          v_all_list t1;
+                        begin
+                           ref_pro(v_emp,v_dep,v_all);
+                           loop
+                           fetch v_emp into v_emp_list;
+                             dbms_output.put_line('emp :'||v_emp_list.first_name);
+                            exit when v_emp%notfound;
+                           end loop;
+                           close v_emp;
+                           
+                           fetch v_dep into v_dep_list;
+                             dbms_output.put_line('dep :'||v_dep_list.department_name);
+                           close v_dep;
+                           
+                           loop
+                           fetch v_all into v_all_list;
+                             dbms_output.put_line('all :'||v_all_list.v1||','||v_all_list.v2);
+                           exit when v_all%notfound;
+                           end loop;
+                           close v_all;
+                        end;
+                        
+***********************************************************************************************************************
+COLLECTIONS   ( A single variable can store multiple data at a time using collections only possible)
+=========================
+ 	VARRAY
+	NESTED TABLE
+	INDEX BY TABLE / ASSOCIATIVE ARRAY
+
+                    DECLARE
+                      v_col NUMBER;
+                    BEGIN
+                      v_col := 10,20,30,40,50;
+                    END; ----not possible
+                        
+      VARRAY
+      -------------------------------                  
+	syntax :   TYPE typename IS VARRAY(size) OF DATTYPE;
+		variable typename := typename();
+                    size -->max---> 4GB
+
+                   DECLARE
+                     type varr_type is varray(10) of number;
+                     v_col varr_type:= varr_type(10,20,30,40,50);
+                   BEGIN
+                       dbms_output.put_line('limit :'||v_col.limit);
+                       dbms_output.put_line('count :'||v_col.count);
+                       dbms_output.put_line('first :'||v_col.first);
+                       dbms_output.put_line('last :'||v_col.last);
+                       dbms_output.put_line('next :'||v_col.next(3));
+                       dbms_output.put_line('prior :'||v_col.prior(3));
+                       
+                       /*FOR i in 1..v_col.count LOOP
+                          dbms_output.put_line('loop :'||v_col(i));
+                       END LOOP;*/
+                       
+                       FOR i in v_col.first..v_col.last LOOP
+                         dbms_output.put_line('loop :'||v_col(i));
+                       END LOOP;
+                       
+                       v_col.extend;
+                       v_col(6) := 60;
+                       dbms_output.put_line('re count :'||v_col.count);
+                       
+                       v_col.extend(2);
+                       dbms_output.put_line('re## count :'||v_col.count);
+                       v_col(7) := 70;
+                       v_col(8) := 80;
+                       
+                       
+                       FOR i in v_col.first..v_col.last LOOP
+                         dbms_output.put_line('loop ### :'||v_col(i));
+                       END LOOP;
+                       
+                       v_col.trim;
+                       dbms_output.put_line('after delete count :'||v_col.count);
+                       
+                       v_col.trim(2);
+                       dbms_output.put_line('after delete### count :'||v_col.count);
+                       
+                       if v_col.exists(7) = true then
+                          dbms_output.put_line('true');
+                       else
+                          dbms_output.put_line('false');
+                       end if;
+                       
+                       --METHOD ===> LIMIT, COUNT, FIRST, LAST, NEXT, PRIOR, EXISTS,
+                        ---          TRIM (SINGLE, MULTIPLE)---> one by one from last 
+                        ---          EXTEND (single, multiple)
+                   END;
+
+
+     NESTED TABLE
+  -----------------------------
+               Syntax :  TYPE typename IS TABLE OF datatype;
+	             variable typename := typename();
+
+                   DECLARE
+                     type nes_type is table of number;
+                     v_col nes_type:= nes_type(10,20,30,40,50);
+                   BEGIN
+                       dbms_output.put_line('limit :'||v_col.limit);
+                       dbms_output.put_line('count :'||v_col.count);
+                       dbms_output.put_line('first :'||v_col.first);
+                       dbms_output.put_line('last :'||v_col.last);
+                       dbms_output.put_line('next :'||v_col.next(3));
+                       dbms_output.put_line('prior :'||v_col.prior(3));
+                       
+                       /*FOR i in 1..v_col.count LOOP
+                          dbms_output.put_line('loop :'||v_col(i));
+                       END LOOP;*/
+                       
+                       FOR i in v_col.first..v_col.last LOOP
+                         dbms_output.put_line('loop :'||v_col(i));
+                       END LOOP;
+                       
+                       v_col.extend;
+                       v_col(6) := 60;
+                       dbms_output.put_line('re count :'||v_col.count);
+                       
+                       v_col.extend(2);
+                       dbms_output.put_line('re## count :'||v_col.count);
+                       v_col(7) := 70;
+                       v_col(8) := 80;
+                       
+                       
+                       FOR i in v_col.first..v_col.last LOOP
+                         dbms_output.put_line('loop ### :'||v_col(i));
+                       END LOOP;
+                       
+                       v_col.trim;
+                       dbms_output.put_line('after delete count :'||v_col.count);
+                       
+                       v_col.trim(2);
+                       dbms_output.put_line('after delete### count :'||v_col.count);
+                       
+                       if v_col.exists(7) = true then
+                          dbms_output.put_line('true');
+                       else
+                          dbms_output.put_line('false');
+                       end if;
+                       
+                       --METHOD ===> COUNT, FIRST, LAST, NEXT, PRIOR, EXISTS,
+                        ---          TRIM (SINGLE, MULTIPLE)---> one by one from last 
+                        ---          EXTEND (single, multiple)
+                   END;
+
+
+INDEX BY TABLE / ASSOCIATIVE ARRAY
+----------------------------------------------------------
+                   DECLARE
+                     type idx_type is table of number index by binary_integer;
+                     v_col idx_type;
+                   BEGIN
+                        v_col(1) := 10;
+                        v_col(11) := 20;
+                        v_col(15) := 20;
+                        v_col(17) := 20;
+                        v_col(21) := 30;
+                       dbms_output.put_line('limit :'||v_col.limit);
+                       dbms_output.put_line('count :'||v_col.count);
+                       dbms_output.put_line('first :'||v_col.first);
+                       dbms_output.put_line('last :'||v_col.last);
+                       dbms_output.put_line('next :'||v_col.next(3));
+                       dbms_output.put_line('prior :'||v_col.prior(3));
+                       
+                       FOR i in 1..v_col.count LOOP
+                         if v_col.exists(i) = true then
+                         DBMS_output.put_line('loop :'||v_col(i));
+                         else
+                         dbms_output.put_line('no data :'||i);
+                         end if;
+                       END LOOP;
+                       
+                       v_col(2) := 20;
+                       v_col(3) := 30;
+                       v_col(4) := 40;
+                       v_col(5) := 50;
+
+                       --v_col.delete(11);  ---single delete
+                       --v_col.delete(21);
+                        
+                         --v_col.delete(11,21);  ---multi delete
+                         
+                         dbms_output.put_line('multi delete count :'||v_col.count);
+                       FOR i in v_col.first..v_col.last loop
+                         if v_col.exists(i) = true then
+                         DBMS_output.put_line('loop ##### :'||v_col(i));
+                         else
+                         dbms_output.put_line('no data #### :'||i);
+                         end if;
+                       end loop;
+                       
+                       v_col.delete; ----all delete
+                       dbms_output.put_line('all delete count :'||v_col.count);
+                       ---method :  COUNT, FIRST, LAST, NEXT, PRIOR, EXISTS
+                                ---- DELETE ( single, multi , all)
+                                ---- not required ( limit, extend, trim)
+                   END;
+
+
+
+
+
+COLLECTION'S METHOD
+------------------------------------
+	LIMIT
+	COUNT
+	FIRST
+	NEXT
+	LAST
+	PRIOR
+	EXTEND
+	EXISTS
+	TRIM
+	DELETE
+
+********************************************************************************************************************************
+BULK COLLECT   ( to avoid context switch 
+                                      context switch --->  sqlengine to plsql engine  --> plsql to sql engine ( to avoid)
+============================
+IMPLICIT cursor
+---------------------
+                declare
+                  type nes_type is table of employees%rowtype;
+                  a nes_type;
+                begin
+                   select * bulk collect into a from employees;
+                   dbms_output.put_line('count :'||A.COUNT);
+                   FOR i in 1..a.count loop
+                     dbms_output.put_line( 'loop :'||a(i).first_name);
+                   end loop;
+                end;
+
+EXPLICIT cursor
+-------------------------
+                        DECLARE
+                          cursor c1 is
+                          select first_name,department_name,city,country_name,region_name
+                             from employees e,departments d,locations l,countries c,regions r
+                             where e.department_id = d.department_id
+                               and d.location_id = l.location_id
+                               and l.country_id = c.country_id
+                               and c.region_id = r.region_id;
+                          
+                          type nes_type is table of c1%rowtype;
+                          a nes_type;
+                        BEGIN
+                          OPEN C1;
+                          FETCH C1 bulk collect INTO a;
+                          CLOSE C1;
+                          dbms_output.put_line('count :'||a.count);
+                          for i in 1..a.count loop
+                            dbms_output.put_line('list :'||a(i).first_name||','||a(i).department_name);
+                          end loop;
+                        END;
+
+  BULK INSERT 
+  -----------------------------------------
+        data preparation
+         ---------------------
+                truncate table t1
+                truncate table t2
+                
+                begin
+                   for i in 1..10 loop
+                     insert into t1 values(i);
+                   end loop;
+                   commit;
+                end;
+                
+                begin
+                   for i in 7..20 loop
+                     insert into t1 values(i);
+                   end loop;
+                   commit;
+                end;                   
+                            
+                begin
+                   for i in 18..25 loop
+                     insert into t1 values(i);
+                   end loop;
+                   commit;
+                end;      
+                
+                begin
+                   for i in 1..3 loop
+                     insert into t1 values(null);
+                   end loop;
+                   commit;
+                end;                            
+
+                select * from t1
+                
+                select * from t2
+
+        EXAMPLE : 1
+        --------------------
+  
+                        DECLARE
+                            CURSOR C1 IS
+                              SELECT A FROM T1;
+                            type nes_type is table of number; 
+                            a nes_type;
+                        BEGIN
+                          open c1;
+                          fetch c1 bulk collect into a; 
+                          close c1;
+                          
+                          forall i in 1..a.count 
+                           insert into t2 values(a(i));
+                           
+                           commit;
+                        END;
+                        
+                        select * from t2
+ 
+          EXAMPLE : 2
+          ------------------------
+                        truncate table t2
+                        
+                        alter table t2 add constraints t2_pk primary key(b)
+
+                        DECLARE
+                            CURSOR C1 IS
+                              SELECT A FROM T1;
+                            type nes_type is table of number; 
+                            a nes_type;
+                            e exception;
+                            pragma exception_init(e,-24381);
+                        BEGIN
+                          open c1;
+                          fetch c1 bulk collect into a; 
+                          close c1;
+                          
+                          forall i in 1..a.count save exceptions
+                           insert into t2 values(a(i));
+                           
+                        EXCEPTION
+                             WHEN E THEN
+                                DBMS_OUTPUT.PUT_LINE('error count :'||sql%bulk_exceptions.count);
+                                FOR I IN 1..SQL%BULK_EXCEPTIONS.COUNT LOOP
+                                DBMS_OUTPUT.PUT_LINE('ERROR MESSAGE :'||SQLERRM(-SQL%BULK_EXCEPTIONS(I).ERROR_CODE));
+                                 DBMS_OUTPUT.PUT_LINE('ERROR LINE :'||SQL%BULK_EXCEPTIONS(I).ERROR_INDEX);
+                                 DBMS_OUTPUT.PUT_LINE('VALUE :'||A(SQL%BULK_EXCEPTIONS(I).ERROR_INDEX));
+
+                                END LOOP; 
+                                ROLLBACK;
+                        END;
+                        
+                        select * from t2
+                                                
+                        SELECT rownum,a FROM T1
+
+  LIMIT in BULK collect
+------------------------------------
+                           declare
+                              cursor c1 is
+                                select * from employees;
+                              TYPE nes_type is table of employees%rowtype;
+                              a nes_type;
+                           begin
+                             open c1;
+                             loop
+                             fetch c1 bulk collect into a limit 10;
+                                 dbms_output.put_line('count :'||a.count);
+                                 for i in a.first..a.last loop
+                                    dbms_output.put_line('loop :'||a(i).first_name||','||a(i).salary);
+                                 end loop;
+                             exit when c1%notfound;
+                             end loop;
+                             close c1;
+                           end;
+
+various example
+-----------------------
+                           declare
+                              cursor c1 is
+                                select * from employees;
+                              TYPE nes_type is table of employees%rowtype index by binary_integer;
+                              a nes_type;
+                           begin
+                             open c1;
+                              fetch c1 bulk collect into a;
+                             close c1;
+                             dbms_output.put_line('count :'||a.count);
+                           end;
+
+
+                           declare
+                              cursor c1 is
+                                select * from employees;
+                              TYPE nes_type is varray(200) of employees%rowtype;
+                              a nes_type;
+                           begin
+                             open c1;
+                              fetch c1 bulk collect into a;
+                             close c1;
+                             dbms_output.put_line('count :'||a.count);
+                           end;
+
+****************************************************************************************************************************
+UTL FILE   (  Utility file. To read / write file )
+--------------------------
+     File type :  txt, csv 
+   
+      connect :  sys/admin as sysdba
+           
+       directory :   create directory UTL_DIR as 'E:\UTLFILE'
+
+        data dictonary : select * from dba_directories where directory_name = 'UTL_DIR'
+
+         DECLARE
+                  id   utl_file.file_type;
+         BEGIN
+                  id := utl_file.fopen('UTL_DIR','test.txt','W',32767);
+                  utl_file.put_line(id,'Welcome');
+                  utl_file.fclose(id);
+          END;
+
+       Example :2 
+        ------------------
+                  DECLARE
+                      id   utl_file.file_type;
+                       CURSOR c1 is
+                            select * from employees;
+                 BEGIN
+                      id := utl_file.fopen('UTL_DIR','test.txt','W',32767);
+
+                                utl_file.put_line(id,'EmpName'||'               '||'salary'||'            '||'Depid');
+	             utl_file.put_line(id,'------------------------------------------------------------------------------');
+                          for i in c1 loop                           
+                                utl_file.put_line(id,i.first_name||'           '||i.salary||'          '||i.department_id);
+	        end loop;
+                       utl_file.fclose(id);
+	END;
+
+************************************************************************************************************************
+DYNAMIC SQL (execute immediate)  ( We can use SQL query in runtime using DYNAMIC SQL / We can execute DDL statement in plsql using DYNAMIC SQL)
+=========================
+       syntax :  1) EXECUTE IMMEDIATE 'query '  -----> if select query then should be use sigle quote
+                       2) EXECUTE IMMEDIATE variable -----> we can store select query in one variable.
+
+       DDL in plsql  ( We cannot execute/ use DDL statement directly in plsql)
+        ---------------------
+
+                        begin
+                           truncate table t1;
+                        end;---not possible
+
+                        declare
+                            v_query varchar2(2000);
+                        begin
+                               v_query := 'truncate table t2';
+                               EXECUTE IMMEDIATE ' truncate table t1';
+                               EXECUTE IMMEDIATE  v_query;
+	     end;
+                        
+                        
+          SELECT QUERY IN execute immediate
+          -------------------------------------------------
+                        declare
+                            v_query varchar2(2000);
+                            v_fname varchar2(100);
+                            v_sal number;
+                        begin
+                            v_query := 'select first_name,salary from employees where employee_id = 100';
+                            dbms_output.put_line('query :'||v_query);
+                            EXECUTE IMMEDIATE v_query INTO v_fname,v_sal;
+                            dbms_output.put_line('output :'||v_fname||','||v_sal);
+                        end;
+                        
+    
+                         bind variable
+                         ---------------------
+                        declare
+                            v_query varchar2(2000);
+                            v_fname varchar2(100);
+                            v_sal number;
+                            p_empid number := 101;
+                        begin
+                            v_query := 'select first_name,salary from employees where employee_id = :grees'; ----> here : is a bind variable
+                            dbms_output.put_line('query :'||v_query);
+                            EXECUTE IMMEDIATE v_query INTO v_fname,v_sal using p_empid;
+                            dbms_output.put_line('output :'||v_fname||','||v_sal);
+                        end;  
+                        
+                         PROCEDURE IN DYNAMIC SQL
+                         --------------------------------------------
+                        create or replace procedure dya_pro(p_input in number)is
+                            v_query varchar2(2000);
+                            v_fname varchar2(100);
+                            v_sal number;
+                        begin
+                            v_query := 'select first_name,salary from employees where employee_id = :greens';
+                            dbms_output.put_line('query :'||v_query);
+                            EXECUTE IMMEDIATE v_query INTO v_fname,v_sal using p_input;
+                            dbms_output.put_line('output :'||v_fname||','||v_sal);
+                        end;   
+                        
+                        exec dya_pro(150)                                       
+
+                        create or replace procedure dya_pro(p_column1 in varchar2,
+                                                            p_tablename in varchar2,
+                                                            p_wherecolumn in varchar2,
+                                                            p_input in number,
+                                                            p_output out varchar2
+                                                            )is
+                            v_query varchar2(2000);
+                            v_output varchar2(100);
+                        begin
+                            v_query := 'select '||p_column1||' from '||p_tablename||' where '||p_wherecolumn||' = :greens';
+                            dbms_output.put_line('query :'||v_query);
+                            EXECUTE IMMEDIATE v_query INTO v_output using p_input;
+                            p_output := v_output;
+                        end;                           
+                        
+                        declare
+                          v_out varchar2(1000);
+                        begin
+                           dya_pro('salary','employees','employee_id','100',v_out);
+                           dbms_output.put_line('v :'||v_out);
+                        end;
+
+                         FUNCITON IN DYNAMIC SQL
+                         --------------------------------------------                        
+                        create or replace function dya_fun(p_column1 in varchar2,
+                                                            p_tablename in varchar2,
+                                                            p_wherecolumn in varchar2,
+                                                            p_input in number
+                                                            )
+                         return varchar2                                   
+                         is
+                            v_query varchar2(2000);
+                            v_output varchar2(100);
+                        begin
+                            v_query := 'select '||p_column1||' from '||p_tablename||' where '||p_wherecolumn||' = :greens';
+                            dbms_output.put_line('query :'||v_query);
+                            EXECUTE IMMEDIATE v_query INTO v_output using p_input;
+                            return v_output;
+                        end;  
+                        
+                        select dya_fun('department_name','departments','department_id','20') from dual
+                        
+                        select dya_fun('city','locations','location_id','1100') from dual                                
+
+***************************************************************************************************************************
+LOCAL PROCEUDRE and FORWARD Declaration
+-------------------------------------------------------------
+                            declare
+                              procedure loc_pro1;   -----------forward declaration
+                              procedure loc_pro2;
+                               procedure loc_pro1 is
+                               begin
+                                  dbms_output.put_line('loc pro 1');
+                               end;
+                               procedure loc_pro2 is
+                               begin
+                                  dbms_output.put_line('loc pro 2');
+                               end;  
+                               ---procedure loc_pro1; ---not possible                               
+                            begin
+                               loc_pro1;
+                               loc_pro2;
+                            end;
+                            
+                            create or replace procedure loc_pro1 is
+                            begin
+                               dbms_output.put_line('stored procedure loc pro 1');
+                            end;
+                            
+                            exec loc_pro1
+***************************************************************************************************************************************
+TRIGGER ( to set a rule on table. 
+          Trigger is a action. it fires whenever event occurs)
+===========================
+why ?  :   To Validate purpose
+	   To Audit purpose
+
+
+TIMING :  BEFORE
+	  AFTER
+
+EVENT :  INSERT
+	 UPDATE
+	 DELETE
+
+TYPE  :  ROW LEVEL TRIGGER
+	 STATEMENT LEVEL TRIGGER
+
+howmany types of trigger?
+12    
+
+    No of EVENT  *  No of TIMING   *  No of Type
+          3		    2		2                =  12
+
+  example :  
+                       BEFORE INSERT  --> FOR EACH ROW
+	    BEFORE UPDATE -->
+                       BEFORE DELETE -->
+
+
+
+
+ROW LEVEL TRIGGER  ( It will fire row by row (each row)
+=============================
+      SYNTAX :   CREATE [OR REPLACE] TRIGGER triggername 
+	         TIMING EVENT1 [ OR EVENT 2 ] [ OR EVENT 3]
+		 ON tablename
+		 REFERENCING OLD AS OLD NEW AS NEW
+		 FOR EACH ROW
+		 [DECLARE ]		
+		 BEGIN
+			-------------TRIGGER BODY
+		 END;
+
+                OLD as OLD  -- both (old and new ) are trigger's attribute
+	        NEW as NEW 
+
+  EXAMPLE : VALIDATION PURPOSE
+  -------------------------------
+           CREATE TABLE STUDENTS(sid number,sname varchar2(20),phoneno number,fees number)
+           CREATE TABLE STUD_HISTORY(sid number,sname varchar2(20),phoneno number,fees number)
+           
+           insert into students values(1,null,465,8000)
+           
+           select * from students
+           
+           CREATE or replace trigger stud_vali_trg 
+           BEFORE insert or update or delete
+           on students
+           referencing old as old new as new
+           for each row
+           begin
+               dbms_output.put_line('new :'||:new.sid||','||:new.sname||','||:new.phoneno||','||:new.fees);
+               dbms_output.put_line('old :'||:old.sid||','||:old.sname||','||:old.phoneno||','||:old.fees);
+           end;
+           
+           SELECT * FROM USER_TRIGGERS  ------------> VERY important column is STATUS, trigger_type, TIGGER_EVENT
+           select * from user_source where name = 'STUD_VALI_TRG'
+           
+          
+          
+           insert into students values(2,'ji',46879,8950)
+           
+           update students set fees = 8000
+           
+           select * from students
+           
+           delete from students
+           
+           insert --- :NEW
+           update --- :NEW and :OLD
+           delete --- :OLD 
+
+     EXAMPLE :1
+     -----------
+  select 'terminal' from dual
+  
+  DROP TABLE STUDENTS purge;
+  
+           CREATE TABLE STUDENTS(sid number,sname varchar2(20),phoneno number,fees number,doj date);
+           CREATE TABLE STUD_HISTORY(sid number,sname varchar2(20),phoneno number,fees number,doj date);
+           
+           insert into students values(1,null,465,8000);
+           
+           select * from students;
+           
+           CREATE or replace trigger stud_vali_trg 
+           BEFORE insert or update or delete
+           on students
+           referencing old as old new as new
+           for each row
+           begin
+               dbms_output.put_line('new :'||:new.sid||','||:new.sname||','||:new.phoneno||','||:new.fees);
+               dbms_output.put_line('old :'||:old.sid||','||:old.sname||','||:old.phoneno||','||:old.fees);
+            IF inserting or updating then
+             if :new.sid is null or :new.sname is null or :new.phoneno is null then
+                 raise_application_error(-20001,'Either student Id or Student Name or Student phoneno is null');
+             end if;
+             if length(:new.phoneno) <> 10 then
+                 raise_application_error(-20001,' Phoneno should be 10');
+             end if;
+             if :new.phoneno <> :old.phoneno then
+                 raise_application_error(-20001,'Not allowed to change phoneno');
+             end if;
+            ELSIF deleting then
+               raise_application_error(-20001,'Not privileages to delete');
+            end if;
+           end;
+           
+           insert into students values(1,'ji',4687998745,8950)
+           
+           update students set phoneno = 4589874561
+           
+           update students set phoneno = null
+           
+           delete from students
+
+       AUDIT TRIGGER
+      ------------------------
+
+
+           create or replace trigger stud_audit_trg 
+           before insert or update or delete
+           on students
+           referencing old as old new as new
+           for each row
+           begin
+              if inserting then
+                  insert into stud_history values(:new.sid,:new.sname,:new.phoneno,:new.fees,sysdate,'insert');
+              elsif updating then
+                  insert into stud_history values(:new.sid,:new.sname,:new.phoneno,abs(:old.fees-:new.fees),sysdate,'update');
+              end if;
+           end;
+           
+           select * from students
+           
+           insert into students values(2,'steven',9874563214,5500,sysdate)
+           
+           insert into students values(3,'lex',9874563215,4500,sysdate)
+           
+           select * from stud_history
+           
+           update students set fees = fees+3000 where sid = 2
+
+
+STATEMENT LEVEL TRIGGER ( fires at only one time)
+-----------------------------------------
+           syntax :    CREATE OR REPLACE TRIGGER triggername
+	           TIMING EVENT1 [OR EVENT 2 OR EVENT3]
+	           on tablename
+	           [DECLARE]
+	           BEGIN
+                                           --------trigger body
+	           END;
+
+                    copy table :
+ 		     CREATE table emp as select * from employees;
+
+                         CREATE OR REPLACE TRIGGER emp_test
+	      BEFORE INSERT OR UPDATE OR DELETE
+	      on emp
+	      begin
+              insert into t1 values(80);
+	      end;
+
+          delete from emp where department_id = 50
+          
+          truncate table t1
+
+          select * from t1
+          
+          insert into emp
+          select * from employees where department_id = 50
+
+
+CAN we create trigger for VIEW?
+   YES.  ********INSTEAD OF TRIGGER********
+
+            SELECT * FROM T1
+            
+            CREATE OR REPLACE VIEW t1_vw as select * from t1
+
+        example :
+            
+                  CREATE OR REPLACE TRIGGER t1_vw_trg
+	             INSTEAD of insert or update or delete
+ 	             ON t1_vw
+	             REFERenCING OLD AS OLD NEW as new
+	             for each row
+	             begin
+		  insert into t2 values(:new.a);
+	             end;
+	             
+	             insert into t1_vw values(10)
+	             
+	             commit
+	             
+	             select * from t1  ----> check data count
+	             
+	             select * from t2  ----> check data count
+
+                   Notes :  If we create one trigger for view, if we execute(insert) that view, only trigger execute, data will not move to main table
+
+MUTATING TABLE / MUTATTING ERROR
+========================
+       Mutating trigger is a error. it will happend same table using in trigger update and cursor 
+
+         CREATE OR REPLACE TRIGGER mut_trg
+         BEFORE INSERT OR UPDATE
+         on students
+         referencing old as old new as new
+         for each row
+         declare
+           cursor c1(p1 number) is
+             select phoneno
+               from students
+              where sid = p1;
+              v_phone varchar2(100);
+         begin
+            if inserting then
+               open c1(:new.sid);
+               fetch c1 into v_phone;
+                  if c1%found then 
+                     dbms_output.put_line('phoneno already available');
+                  end if;
+               close c1;
+               insert into stud_history values(:new.sid,:new.sname,:new.phoneno,:new.fees,sysdate);
+            elsif updating then
+               open c1(:new.sid);  ---------------------->  SAME TABLE SHOULD NOT BE(trigger, cursor) USE (mutating)
+               fetch c1 into v_phone;
+                  if c1%found then 
+                     dbms_output.put_line('phoneno already available');
+                  end if;
+               close c1;
+               insert into stud_history values(:new.sid,:new.sname,:new.phoneno,:new.fees,sysdate);
+            end if;
+         end;
+         
+         insert into students values(100,'steven',9874563211,8500,sysdate)
+         
+         update students set fees = 9500 where sid = 100  -----> mutating trigger error will raise
+
+
+
+TRIGGER'S IMPORTANT KEYWORD
+====================================
+
+Note :  *  We cannot identify the triggering order
+             *   We can create n no of triggers per table
+             *   12 combination / types of trigger we have
+             *   if we drop the table, trigger also be dropped ( trigger,constraints,index,partitions)
+                  view, synonyms both are not dropped.
+                  view ---> changed as forced view 
+                  synonyms ---> synonyms no longer valid ( error will throw if table not exists)
+            *   We cannot use TCL statement in trigger directly.
+
+
+******************************************************************************************************************
+AUTONOMOUS_TRANSACTION  ( it is indenpendent transaction. it will not affect other transaction)
+====================================
+   syntax :  PRAGMA AUTONOMOUS_TRANSACTION
+
+where we used ?   PROCEDURE , FUNCTION, TRIGGER
+
+    example with PROCEDURE
+    -----------------------------------
+              drop table t1 purge;
+              create table t1(a number);
+
+             create or replace procedure aut_pro IS
+             ---PRAGMA AUTONOMOUS_TRANSACTION;
+             begin
+                   insert into t1 values(100);
+             commit;
+             end;
+
+  
+            declare
+	a number;
+            begin
+                   insert into t1 values(99);
+	select 1/1 into a from dual;
+                   aut_pro;
+                   select 1/0 into a from dual;
+                 COMMIT;
+              end;
+ 
+               select * from t1 ---> check data and count
+
+               truncate table t1;
+
+
+             create or replace procedure aut_pro IS
+             PRAGMA AUTONOMOUS_TRANSACTION;
+             begin
+                   insert into t1 values(100);
+             commit;
+             end;
+
+  
+            declare
+	a number;
+            begin
+                   insert into t1 values(99);
+	select 1/1 into a from dual;
+                   aut_pro;
+                   select 1/0 into a from dual;
+                 COMMIT;
+              end;
+
+                select * from t1 ----> check data and count----> pragma auto., is a independent transaction. it doesnot affect other transaction
+
+         FUNCTION 
+          --------------
+               TRUNCATE TABLE T1;
+
+             create or replace function aut_fun
+            RETURN CHAR
+            IS
+             begin
+                   insert into t1 values(100);
+             commit;
+                  return 'a';
+             end;
+             
+             
+             select aut_fun from dual  --ORA-14551: cannot perform a DML operation inside a query 
+
+
+             create or replace function aut_fun
+            RETURN CHAR
+            IS
+             PRAGMA AUTONOMOUS_TRANSACTION;
+             begin
+                   insert into t1 values(100);
+             commit;
+                  return 'a';
+             end;
+             
+             SELECT aut_fun from dual
+             
+             select * from t1
+             
+             truncate table t1
+
+         TRIGGER
+         ---------------------
+                  TRUNCATE TABLE T1
+                  TRUNCATE TABLE T2
+
+             create or replace trigger t1_trg
+             before insert
+             on t1
+             referencing old as old new as new
+             for each row
+             begin
+                insert into t2 values(:new.a);
+              COMMIT;
+             end;
+             
+             INSERT INTO T1 VALUES(90) ----ORA-04092: cannot COMMIT in a trigger
+             
+             
+           create or replace trigger t1_trg
+             before insert
+             on t1
+             referencing old as old new as new
+             for each row
+             declare
+             PRAGMA AUTONOMOUS_TRANSACTION;
+             begin
+                insert into t2 values(:new.a);
+              COMMIT;
+             end;
+             
+             insert into t1 values(852)
+             
+             select * from t1
+             select * from t2
+             
+             
+             T1 --->TABLE
+             T1_TRG ---> TRIGGER
+             INSIDE TRIGGER PRO1 ---> PROCEDURE
+             INSIDE PROCEDURE ---> insert into t2 values(500) commit
+             
+             insert into t1 values(250)
+
+*************************************************************************************************************************************
+
+     
